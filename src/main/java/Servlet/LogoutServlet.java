@@ -1,20 +1,21 @@
 package Servlet;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import java.io.IOException;
+import java.io.*;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 
 public class LogoutServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 현재 세션을 가져오기
-        HttpSession session = request.getSession(false);
-        
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    				throws ServletException, IOException {
+        HttpSession session = request.getSession(false); // 현재 세션 가져오기
         if (session != null) {
-            // 세션 무효화
-            session.invalidate();
+            session.invalidate(); // 세션 무효화
         }
-
-        // 로그아웃 후 로그인 페이지로 리다이렉트
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("index.jsp"); // 로그아웃 후 메인 페이지로 리다이렉트
     }
 }

@@ -40,7 +40,7 @@ out.println("JSP로 변경하기");
 리퀘스트영역 : ${ Message }$
 
   <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky">
+<header class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -62,9 +62,9 @@ out.println("JSP로 변경하기");
                         </li>
                         <li><a href="categories.jsp">Categories</a></li>
                         <li><a href="users.jsp">Users</a></li>
-                    </ul>   
+                    </ul>
                     <div class="border-button">
-                      <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Sign In/Up</a>
+                        <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Sign In/Up</a>
                     </div>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -74,56 +74,102 @@ out.println("JSP로 변경하기");
             </div>
         </div>
     </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
+</header>
 
-  <div id="modal" class="popupContainer" style="display:none;">
+<!-- Modal HTML -->
+<div id="modal" class="popupContainer" style="display:none;">
     <div class="popupHeader">
         <span class="header_title">Login</span>
         <span class="modal_close"><i class="fa fa-times"></i></span>
     </div>
 
     <section class="popupBody">
-        <!-- Social Login -->
         <div class="social_login">
-           
             <div class="action_btns">
-                <div class="one_half"><a href="#" id="login_form" class="btn">로그인</a></div>
-                <div class="one_half last"><a href="#" id="register_form" class="btn">회원가입</a></div>
+                <div class="one_half">
+                    <a href="#" id="login_form" class="btn">로그인</a>
+                </div>
+                <div class="one_half last">
+                    <a href="#" id="register_form" class="btn">회원가입</a>
+                </div>
             </div>
         </div>
 
-        <!-- Username & Password Login form -->
-			<div class="user_login">
-				<div>
-					<label for="username">아이디:</label> <input type="text"
-						name="username" id="username" required><br>
-					<br>
-				</div>
+        <div class="user_login">
+            <form id="loginForm" action="LoginServlet" method="post">
+                <div>
+                    <label for="username">아이디:</label>
+                    <input type="text" name="username" id="username" required><br><br>
+                </div>
+                <div>
+                    <label for="password">비밀번호:</label>
+                    <input type="password" name="password" id="password" required><br><br>
+                </div>
+                <div class="checkbox">
+                    <input id="remember" type="checkbox" />
+                    <label for="remember">Remember me on this computer</label>
+                </div>
 
-				<div>
-					<label for="password">비밀번호:</label> <input type="password"
-						name="password" id="password" required><br>
-					<br>
-				</div>
-				<div class="checkbox">
-					<input id="remember" type="checkbox" /> <label for="remember">Remember
-						me on this computer</label>
-				</div>
+                <!-- 메시지 표시 영역 -->
+                <div id="loginMessage" style="color: red; margin-top: 10px; display: none;"></div>
 
-				<div class="action_btns">
-					<div class="one_half">
-						<a href="#" class="btn back_btn"><i
-							class="fa fa-angle-double-left"></i>뒤로가기</a>
-					</div>
-					<div class="one_half last">
-						<button type="submit" class="btn btn_red">로그인</button>
-					</div>
-				</div>
-				</form>
+                <div class="action_btns">
+                    <div class="one_half">
+                        <a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i>뒤로가기</a>
+                    </div>
+                    <div class="one_half last">
+                        <button type="submit" class="btn btn_red">로그인</button>
+                    </div>
+                </div>
+                <a href="#" class="forgot_password">비밀번호를 잊어버리셨나요??</a>
+            </form>
+        </div>
+    </section>
+</div>
 
-				<a href="#" class="forgot_password">비밀번호를 잊어버리셨나요??</a>
-			</div>
+<!-- JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById('modal');
+        const loginButton = document.getElementById('modal_trigger');
+        const closeModal = document.querySelector('.modal_close');
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage'); // 메시지 표시 영역
+
+        // 모달 열기
+        loginButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            modal.style.display = 'block';
+            loginMessage.style.display = 'none'; // 메시지 숨기기
+        });
+
+        // 모달 닫기
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // 로그인 폼 제출 시 처리
+        loginForm.addEventListener('submit', function (event) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // 기본 검증
+            if (!username || !password) {
+                event.preventDefault(); // 폼 제출 중단
+                loginMessage.style.display = 'block';
+                loginMessage.textContent = '아이디와 비밀번호를 입력해주세요.';
+                return;
+            }
+
+            // 성공 메시지 표시
+            event.preventDefault(); // 디버깅용 (서버 전송 시 제거)
+            loginMessage.style.display = 'block';
+            loginMessage.style.color = 'green';
+            loginMessage.textContent = `환영합니다, ${username}님!`;
+        });
+    });
+</script>
+
 
 			<!-- Register Form -->
         <div class="user_register">

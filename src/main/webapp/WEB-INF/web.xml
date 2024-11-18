@@ -6,6 +6,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
     
+    
     <!-- Servlet 등록 -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>

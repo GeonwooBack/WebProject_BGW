@@ -1,56 +1,56 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%
+    // 세션에서 로그인 상태 확인
+    String username = (String) session.getAttribute("username");
+    if (username != null) {
+%>
+    <script>
+        alert('<%= username %>님 환영합니다!');
+        window.location.href = 'welcome.jsp';
+    </script>
+<%
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-
+<head>
     <meta charset="utf-8">
     <meta name="author" content="templatemo">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-
     <title>SnapX Photography by TemplateMo</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-snapx-photography.css">
     <link rel="stylesheet" href="assets/css/owl.css">
     <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<!--
-
-TemplateMo 576 SnapX Photography
-
-https://templatemo.com/tm-576-snapx-photography
-
--->
-  </head>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+		<style>
+        /* 명시적으로 버튼의 투명도를 제거 */
+        .btn {
+            opacity: 1 !important;
+        }
+    </style>
+</head>
 
 <body>
 
-<%
-out.println("JSP로 변경하기");
-%>
-리퀘스트영역 : ${ Message }$
-
-  <!-- ***** Header Area Start ***** -->
+<!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
                     <a href="index.jsp" class="logo">
                         <img src="assets/images/logo.png" alt="SnapX Photography Template">
                     </a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="index.jsp" class="active">Home</a></li>
                         <li class="has-sub">
@@ -64,142 +64,126 @@ out.println("JSP로 변경하기");
                         <li><a href="users.jsp">Users</a></li>
                     </ul>
                     <div class="border-button">
-                        <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Sign In/Up</a>
+                        <%
+                            if (username != null) {
+                        %>
+                            <a href="mypage.jsp" class="btn btn-primary">마이페이지</a>
+                            <a href="LogoutServlet" class="btn btn-secondary">로그아웃</a>
+                        <%
+                            } else {
+                        %>
+                            <button id="openLoginModal" class="btn btn-primary">로그인</button>
+                            <button id="openRegisterModal" class="btn btn-secondary">회원가입</button>
+                        <%
+                            }
+                        %>
                     </div>
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
-                    <!-- ***** Menu End ***** -->
                 </nav>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Modal HTML -->
-<div id="modal" class="popupContainer" style="display:none;">
-    <div class="popupHeader">
-        <span class="header_title">Login</span>
-        <span class="modal_close"><i class="fa fa-times"></i></span>
+<!-- Modal for Login -->
+<div id="loginModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" id="closeLoginModal">&times;</span>
+        <h2>로그인</h2>
+        <form action="LoginServlet" method="post">
+            <label for="username">아이디:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
     </div>
+</div>
 
-    <section class="popupBody">
-        <div class="social_login">
-            <div class="action_btns">
-                <div class="one_half">
-                    <a href="#" id="login_form" class="btn">로그인</a>
-                </div>
-                <div class="one_half last">
-                    <a href="#" id="register_form" class="btn">회원가입</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="user_login">
-            <form id="loginForm" action="LoginServlet" method="post">
-                <div>
-                    <label for="username">아이디:</label>
-                    <input type="text" name="username" id="username" required><br><br>
-                </div>
-                <div>
-                    <label for="password">비밀번호:</label>
-                    <input type="password" name="password" id="password" required><br><br>
-                </div>
-                <div class="checkbox">
-                    <input id="remember" type="checkbox" />
-                    <label for="remember">Remember me on this computer</label>
-                </div>
-
-                <!-- 메시지 표시 영역 -->
-                <div id="loginMessage" style="color: red; margin-top: 10px; display: none;"></div>
-
-                <div class="action_btns">
-                    <div class="one_half">
-                        <a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i>뒤로가기</a>
-                    </div>
-                    <div class="one_half last">
-                        <button type="submit" class="btn btn_red">로그인</button>
-                    </div>
-                </div>
-                <a href="#" class="forgot_password">비밀번호를 잊어버리셨나요??</a>
-            </form>
-        </div>
-    </section>
+<!-- Modal for Register -->
+<div id="registerModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" id="closeRegisterModal">&times;</span>
+        <h2>회원가입</h2>
+        <form action="RegisterServlet" method="post" onsubmit="return handleRegisterSubmit();">
+            <label for="newUsername">아이디:</label>
+            <input type="text" id="newUsername" name="username" required><br><br>
+            <label for="newPassword">비밀번호:</label>
+            <input type="password" id="newPassword" name="password" required><br><br>
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="phoneNumber">전화번호:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+            <label for="birthdate">생년월일:</label>
+            <input type="date" id="birthdate" name="birthdate" required><br><br>
+            <label for="gender">성별:</label>
+            <input type="radio" id="male" name="gender" value="male" required>
+            <label for="male">남성</label>
+            <input type="radio" id="female" name="gender" value="female" required>
+            <label for="female">여성</label><br><br>
+            <button type="submit" class="btn btn-secondary">회원가입</button>
+        </form>
+    </div>
 </div>
 
 <!-- JavaScript -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById('modal');
-        const loginButton = document.getElementById('modal_trigger');
-        const closeModal = document.querySelector('.modal_close');
-        const loginForm = document.getElementById('loginForm');
-        const loginMessage = document.getElementById('loginMessage'); // 메시지 표시 영역
+        // 모달 DOM 요소 가져오기
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const openLoginModalBtn = document.getElementById('openLoginModal');
+        const openRegisterModalBtn = document.getElementById('openRegisterModal');
+        const closeLoginModalBtn = document.getElementById('closeLoginModal');
+        const closeRegisterModalBtn = document.getElementById('closeRegisterModal');
 
-        // 모달 열기
-        loginButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            modal.style.display = 'block';
-            loginMessage.style.display = 'none'; // 메시지 숨기기
-        });
+        if (openLoginModalBtn) {
+            // 로그인 모달 열기
+            openLoginModalBtn.addEventListener('click', () => {
+                loginModal.style.display = 'block';
+            });
+        }
 
-        // 모달 닫기
-        closeModal.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
+        if (openRegisterModalBtn) {
+            // 회원가입 모달 열기
+            openRegisterModalBtn.addEventListener('click', () => {
+                registerModal.style.display = 'block';
+            });
+        }
 
-        // 로그인 폼 제출 시 처리
-        loginForm.addEventListener('submit', function (event) {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+        if (closeLoginModalBtn) {
+            // 로그인 모달 닫기
+            closeLoginModalBtn.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+        }
 
-            // 기본 검증
-            if (!username || !password) {
-                event.preventDefault(); // 폼 제출 중단
-                loginMessage.style.display = 'block';
-                loginMessage.textContent = '아이디와 비밀번호를 입력해주세요.';
-                return;
-            }
+        if (closeRegisterModalBtn) {
+            // 회원가입 모달 닫기
+            closeRegisterModalBtn.addEventListener('click', () => {
+                registerModal.style.display = 'none';
+            });
+        }
 
-            // 성공 메시지 표시
-            event.preventDefault(); // 디버깅용 (서버 전송 시 제거)
-            loginMessage.style.display = 'block';
-            loginMessage.style.color = 'green';
-            loginMessage.textContent = `환영합니다, ${username}님!`;
+        // 배경 클릭 시 모달 닫기
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) loginModal.style.display = 'none';
+            if (e.target === registerModal) registerModal.style.display = 'none';
         });
     });
+
+    function handleRegisterSubmit() {
+        alert('회원가입이 완료되었습니다!');
+        window.location.href = 'index.jsp';
+        return false;
+    }
 </script>
 
 
-			<!-- Register Form -->
-        <div class="user_register">
-            <form action="" method="post">
-                <label>Username</label>
-                <input name="username" type="text" id="username" />
-                <br />
-
-                <label>Email Address</label>
-                <input name="email" type="email" id="email" />
-                <br />
-
-                <label>Password</label>
-                <input name="password" type="password" id="password" />
-                <br />
-
-                <div class="checkbox">
-                    <input id="send_updates" type="checkbox" />
-                    <label for="send_updates">Send me occasional email updates</label>
-                </div>
-
-                <div class="action_btns">
-                    <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                    <div class="one_half last"><button type="submit" class="btn btn_red">Register</button></div>
-                </div>
-            </form>
-        </div>
-        
-    </section>
-  </div>
 
   <!-- ***** Main Banner Area Start ***** -->
   <div class="main-banner">

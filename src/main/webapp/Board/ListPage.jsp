@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList" %>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>자유게시판</title>
+    <!-- 스타일 추가 -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -117,7 +118,6 @@
         자유게시판
         <div class="auth-buttons">
             <% 
-            // 로그인 여부 확인
             String username = (String) session.getAttribute("username");
             if (username != null) { 
             %>
@@ -132,11 +132,9 @@
         <h1>자유게시판</h1>
         <div class="button-container">
             <% if (username != null) { %>
-            <a href="<%= request.getContextPath() %>/Board/Write.jsp" class="btn btn-primary">글쓰기</a>
-
-
+                <a href="<%= request.getContextPath() %>/Board/Write.jsp" class="btn btn-primary">글쓰기</a>
             <% } else { %>
-                <span style="color: #888888; font-weight: bold;">로그인 후 글쓰기가 가능합니다.</span>
+                <span>로그인 후 글쓰기가 가능합니다.</span>
             <% } %>
         </div>
         <table>
@@ -150,8 +148,13 @@
                 <% } %>
             </tr>
             <%
-            ArrayList<board.BoardDTO> posts = (ArrayList<board.BoardDTO>) request.getAttribute("posts");
-            if (posts != null && !posts.isEmpty()) {
+            List<board.BoardDTO> posts = (List<board.BoardDTO>) request.getAttribute("posts");
+            if (posts == null || posts.isEmpty()) {
+            %>
+            <tr>
+                <td colspan="<%= (username != null) ? 5 : 4 %>">게시글이 없습니다.</td>
+            </tr>
+            <% } else {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 for (board.BoardDTO post : posts) {
             %>
@@ -161,21 +164,15 @@
                 <td><%= post.getWriter() %></td>
                 <td><%= dateFormat.format(post.getPostDate()) %></td>
                 <% if (username != null && username.equals(post.getWriter())) { %>
-                <td class="action-buttons">
+                <td>
                     <a href="Edit.jsp?id=<%= post.getId() %>">수정</a>
-                    <a href="DeleteController?id=<%= post.getId() %>" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                    <a href="DeleteController?id=<%= post.getId() %>">삭제</a>
                 </td>
                 <% } %>
             </tr>
-            <% 
-                }
-            } else { 
-            %>
-            <tr>
-                <td colspan="<%= (username != null) ? 5 : 4 %>" class="no-posts">게시글이 없습니다.</td>
-            </tr>
-            <% } %>
+            <% } } %>
         </table>
     </div>
 </body>
 </html>
+    

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/mvcboard/download.do")
+@WebServlet("/board/download.do")
 public class DownloadController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

@@ -72,13 +72,13 @@ String username = (String) session.getAttribute("username");
 						</a>
 						<ul class="nav">
 							<li><a href="index.jsp" class="active">Home</a></li>
-							<li class="has-sub"><a href="javascript:void(0)">Photos
-									&amp; Videos</a>
+							<li class="has-sub"><a href="javascript:void(0)">Q&A
+									&amp; FILES</a>
 								<ul class="sub-menu">
-									<li><a href="contests.jsp">Contests</a></li>
-									<li><a href="contest-details.jsp">Single Contest</a></li>
+									<li><a href="contests.jsp">Q&A게시판</a></li>
+									<li><a href="${pageContext.request.contextPath}/FileMVCBoard/ADefault.jsp">파일첨부형게시판</a></li>
 								</ul></li>
-							<li><a href="categories.jsp">Categories</a></li>
+							<li><a href="categories.jsp"></a></li>
 							<li><a href="Board/ListPage.jsp">자유게시판</a></li>
 						</ul>
 						<div class="border-button">

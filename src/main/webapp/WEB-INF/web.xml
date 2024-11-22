@@ -27,4 +27,13 @@
     <session-timeout>35</session-timeout>
   </session-config>
 
+	<!-- 게시판 페이징 설정 값 -->
+  <context-param>
+    <param-name>POSTS_PER_PAGE</param-name>
+    <param-value>10</param-value>
+</context-param>
+<context-param>
+    <param-name>POSTS_PER_BLOCK</param-name>
+    <param-value>5</param-value>
+</context-param>
 </web-app>

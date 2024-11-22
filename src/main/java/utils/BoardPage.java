@@ -8,7 +8,7 @@ public class BoardPage {
    pageNum : 현제 진입해있는 페이지번호.
    reqUrl : 게시판 목록의 요청명.
     */
-   public static String pagingStr(int totalCount, int pageSize, int blockPage,
+   public static String pagingStr(Object totalCount, int pageSize, int blockPage,
          int pageNum, String reqUrl) {
       String pagingStr = "";
       

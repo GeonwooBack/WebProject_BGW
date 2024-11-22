@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         if (isValid) {
             // 로그인 성공 시 세션에 사용자 정보 저장
             HttpSession session = request.getSession();
-            session.setAttribute("username", username);
+            session.setAttribute("UserId", username);
 
             // 로그인 성공 후 index.jsp로 리다이렉트
             response.getWriter().println("<script>alert('" + username + "님 환영합니다!'); location.href='index.jsp';</script>");

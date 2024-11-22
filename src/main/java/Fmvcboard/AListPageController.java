@@ -35,7 +35,7 @@ public class AListPageController extends HttpServlet {
         }
 
         // 게시물의 갯수 카운트. 검색어가 있는 경우 like절 동적 추가됨.
-        int totalCount = dao.selectCount(map);
+        int totalCount = dao.selectCount();
 
         // 페이지 처리 start
         // application 내장객체를 얻어옴

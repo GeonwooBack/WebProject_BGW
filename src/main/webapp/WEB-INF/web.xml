@@ -3,10 +3,28 @@
   <display-name>WebProject_BGW</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
-
   </welcome-file-list>
    
+  <!-- 데이터베이스 연결을 위한 접속 정보 설정 -->
+  <context-param>
+    <param-name>OracleDriver</param-name>
+    <param-value>oracle.jdbc.OracleDriver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OracleURL</param-name>
+    <param-value>jdbc:oracle:thin:@localhost:1521:xe</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OracleId</param-name>
+    <param-value>webproject_db</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OraclePwd</param-name>
+    <param-value>1234</param-value>
+  </context-param>
+  
+  <session-config>
+    <session-timeout>35</session-timeout>
+  </session-config>
 
 </web-app>
-
-
